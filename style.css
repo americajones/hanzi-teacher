@@ -1,0 +1,73 @@
+body {
+    background-color: rgb(8, 10, 17);
+    color: rgb(91, 129, 161);
+    font-size: 2rem;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 0;
+    margin: 0;
+}
+button {
+    border: none;
+    background-color: rgb(91, 158, 147);
+    padding: 10px;
+    cursor: pointer;
+}
+button:hover{
+    background-color: rgb(214, 255, 180);
+}
+.home-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.mainSelect{
+    background-color: rgb(63, 94, 122);
+    width: 70vw;
+    height: 30vh;
+    margin: 2rem;
+    text-align: center;
+}
+.list {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+.hanziCheckBox {
+    background-color: rgb(27, 34, 56);
+    margin: 5px;
+    padding: 10px;
+    cursor: pointer;
+}
+.flexrow{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    height: 2.5rem;
+    width:100vw;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+.selected {
+    background-color: rgb(63, 94, 122);
+    color: rgb(202, 218, 217);
+}
+.fixed {
+    position: fixed;
+    background-color: rgb(8, 10, 17);
+    color: rgb(63, 94, 122);
+    top: 0;
+}
+.right{
+    position: absolute;
+    right: 50px;
+}
+.left{
+    position: absolute;
+    left: 10px;
+}
+.red {
+    background-color: rgb(172, 113, 113);
+}
+.hidden {
+    display: none;
+}

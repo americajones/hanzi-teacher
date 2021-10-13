@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="data.js">
+    </script>
+    <title>我們學中文</title>
+</head>
+
+<body>
+    <div class="home-page">
+        <button id="learnNew" class="mainSelect" onclick="learnNew()">
+            <h2>Learn New</h2>
+            <p class="learnedNumber">0/1500</p>
+        </button>
+        <button id="review" class="mainSelect" onclick="review()">
+            <h2>Review</h2>
+            <p class="secondNumber"></p>
+        </button>
+
+        <button class="editList butt" onclick="loadList()">edit list</button>
+    </div>
+    <div class="characterListPage hidden">
+        <div class="flexrow fixed">
+            <button class="backHome butt left" onclick="backHome()">back</button>
+            <div class="charDescription"></div>
+            <button class="right" onclick="saveSet()">Mark Learned</button>
+        </div>
+        <div class="list"></div>
+        <button class="right red" onclick="deleteSet()">Clear Data</button>
+    </div>
+    <div class="quiz1Page hidden">
+        <div class="quizBox">
+            <div class="answers"></div>
+            <div class="question">WIP</div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -5,8 +5,12 @@ const charDescript = document.querySelector(".charDescription");
 const learnedNumber = document.querySelector(".learnedNumber");
 const secondNumber = document.querySelector(".secondNumber");
 const list = document.querySelector(".list");
+const question = document.querySelector(".question");
+const definition = document.querySelector(".definition");
+const answers = document.querySelector(".answers");
 let savedHanzi = [];
 let learnedHanzi = [];
+let taughtHanzi = [];
 let hanziToBeSaved = [];
 
 let allHanziArray = [];
@@ -33,9 +37,16 @@ function learnNew() {
     allMeaningsArray = [];
     allZhuyinArray = [];
     loadNewHanzi();
+    teach(0);
 }
+let currentlyLearning;
+let char0;
+let char1;
+let char2;
+let char3;
+let char4;
+let realAnswer;
 function loadNewHanzi() {
-    console.log("1: ", allHanziArray);
     for (var [index, [key, value]] of Object.entries(Object.entries(hanzi1500))) {
         if (learnedHanzi.includes(key)) {
             console.log("not today")
@@ -45,15 +56,300 @@ function loadNewHanzi() {
             allMeaningsArray.push(value.english);
         }
     }
-    console.log("2: ", allHanziArray);
+    // console.log("2: ", allHanziArray);
     homeBox.classList.add('hidden');
-    //make quiz and populate page
     quiz1Box.classList.remove('hidden');
+    //populate data
+    currentlyLearning = [];
+    char0 = new Learning(allHanziArray[0], 0);
+    char1 = new Learning(allHanziArray[1], 0);
+    char2 = new Learning(allHanziArray[2], 0);
+    char3 = new Learning(allHanziArray[3], 0);
+    char4 = new Learning(allHanziArray[4], 0);
+    currentlyLearning.push(char0, char1, char2, char3, char4);
+    console.log(currentlyLearning);
 }
 //show off: introduce the character- pronounce, definition
-
+function teach(num) {
+    //populate page
+    removeAllChildren(question);
+    removeAllChildren(definition);
+    removeAllChildren(answers);
+    let nuTitle = document.createElement('h1');
+    let nuZhu = document.createElement('p');
+    let nuDef = document.createElement('h3');
+    let nuButt = document.createElement('button');
+    nuTitle.textContent = allHanziArray[num];
+    nuZhu.textContent = allZhuyinArray[num];
+    nuDef.textContent = allMeaningsArray[num];
+    nuButt.textContent = "got it";
+    nuButt.addEventListener('click', function () {
+        randomQuiz(num)
+    })
+    question.append(nuTitle);
+    definition.append(nuZhu, nuDef, nuButt);
+}
+class Learning {
+    constructor(char, answeredCorrectly) {
+        this.char = char;
+        this.answeredCorrectly = answeredCorrectly;
+    }
+    //method
+    goodAnswer() {
+        return this.answeredCorrectly++;
+    };
+    badAnswer() {
+        return this.answeredCorrectly--;
+    };
+}
 //random quiz--must get correct 5 times to log character for the day- if answeredCorrectly < 5, ask another
+function randomQuiz(num) {
+    //populate page
+    removeAllChildren(question);
+    removeAllChildren(definition);
+    removeAllChildren(answers);
+    let nuTitle = document.createElement('h1');
+    nuTitle.textContent = allHanziArray[num];
+    question.append(nuTitle);
+    realAnswer = allMeaningsArray[num];
+    let answersArray = [];
+    answersArray.push(realAnswer);
+    for (let i = 0; i < 5; i++) {
+        let randoNum = Math.floor(Math.random() * allHanziArray.length);
+        let randoAnswer = allMeaningsArray[randoNum];
+        answersArray.push(randoAnswer);
+    };
+    shuffleArray(answersArray);
+    answersArray.forEach(answer => {
+        let newDiv = document.createElement('div');
+        newDiv.textContent = answer;
+        // console.log("num is ", num);
+        newDiv.addEventListener('click', (e) => {
+            // console.log("num is ", num);
+            handleAnswerClick1(e, num)
+        })
+        newDiv.classList.add('answer');
+        answers.append(newDiv);
+    })
+    //if not correct do again
+    //if answeredCorrectly = 5, add to hanzitobesaved and save that shit
+};
+function handleAnswerClick1(e, num) {
+    let selectedAnswer = e.currentTarget.textContent;
+    if (realAnswer === selectedAnswer && num == 0) {
+        char0.goodAnswer();
+        randomQuiz2(0);
+    } else if (realAnswer !== selectedAnswer && num == 0) {
+        char0.badAnswer();
+        randomQuiz(0);
+    } else if (realAnswer === selectedAnswer && num == 1) {
+        char1.goodAnswer();
+        randomQuiz2(1);
+    } else if (realAnswer !== selectedAnswer && num == 1) {
+        char1.badAnswer();
+        randomQuiz(1);
+    } else if (realAnswer === selectedAnswer && num == 2) {
+        char2.goodAnswer();
+        randomQuiz2(2);
+    } else if (realAnswer !== selectedAnswer && num == 2) {
+        char2.badAnswer();
+        randomQuiz(2);
+    } else if (realAnswer === selectedAnswer && num == 3) {
+        char3.goodAnswer();
+        randomQuiz2(3);
+    } else if (realAnswer !== selectedAnswer && num == 3) {
+        char3.badAnswer();
+        randomQuiz(3);
+    } else if (realAnswer === selectedAnswer && num == 4) {
+        char4.goodAnswer();
+        randomQuiz2(4);
+    } else if (realAnswer !== selectedAnswer && num == 4) {
+        char4.badAnswer();
+        randomQuiz(4);
+    }
+    console.log(currentlyLearning);
+}
+function randomQuiz2(num) {
+    //populate page
+    removeAllChildren(question);
+    removeAllChildren(definition);
+    removeAllChildren(answers);
+    let nuTitle = document.createElement('h1');
+    nuTitle.textContent = allHanziArray[num];
+    realAnswer = allZhuyinArray[num];
+    let answersArray = [];
+    answersArray.push(realAnswer);
+    question.append(nuTitle);
+    for (let i = 0; i < 5; i++) {
+        let randoNum = Math.floor(Math.random() * allHanziArray.length);
+        let randoAnswer = allZhuyinArray[randoNum];
+        answersArray.push(randoAnswer);
+    };
+    shuffleArray(answersArray);
+    answersArray.forEach(answer => {
+        let newDiv = document.createElement('div');
+        newDiv.textContent = answer;
+        newDiv.addEventListener('click', (e) => {
+            handleAnswerClick2(e, num)
+        })
+        newDiv.classList.add('answer');
+        answers.append(newDiv);
+    })
+    //if not correct do again
+    //if answeredCorrectly = 5, add to hanzitobesaved and save that shit
+};
+function handleAnswerClick2(e, num) {
+    let selectedAnswer = e.currentTarget.textContent;
+    if (realAnswer === selectedAnswer && num == 0) {
+        char0.goodAnswer();
+        teach(1);
+    } else if (realAnswer !== selectedAnswer && num == 0) {
+        char0.badAnswer();
+        randomQuiz2(0);
+    } else if (realAnswer === selectedAnswer && num == 1) {
+        char1.goodAnswer();
+        teach(2);
+    } else if (realAnswer !== selectedAnswer && num == 1) {
+        char1.badAnswer();
+        randomQuiz2(1);
+    } else if (realAnswer === selectedAnswer && num == 2) {
+        char2.goodAnswer();
+        teach(3);
+    } else if (realAnswer !== selectedAnswer && num == 2) {
+        char2.badAnswer();
+        randomQuiz2(2);
+    } else if (realAnswer === selectedAnswer && num == 3) {
+        char3.goodAnswer();
+        teach(4);
+    } else if (realAnswer !== selectedAnswer && num == 3) {
+        char3.badAnswer();
+        randomQuiz2(3);
+    } else if (realAnswer === selectedAnswer && num == 4) {
+        char4.goodAnswer();
+        randomQuiz3(0)
+    } else if (realAnswer !== selectedAnswer && num == 4) {
+        char4.badAnswer();
+        randomQuiz2(3);
+    }
+    console.log(currentlyLearning);
+}
+function randomQuiz3(num) {
+    //populate page
+    removeAllChildren(question);
+    removeAllChildren(definition);
+    removeAllChildren(answers);
+    let nuTitle = document.createElement('h1');
+    nuTitle.textContent = allHanziArray[num];
+    realAnswer = allMeaningsArray[num];
+    let answersArray = [];
+    answersArray.push(realAnswer);
+    question.append(nuTitle);
+    for (let i = 0; i < 5; i++) {
+        let randoNum = Math.floor(Math.random() * allHanziArray.length);
+        let randoAnswer = allMeaningsArray[randoNum];
+        answersArray.push(randoAnswer);
+    };
+    shuffleArray(answersArray);
+    answersArray.forEach(answer => {
+        let newDiv = document.createElement('div');
+        newDiv.textContent = answer;
+        newDiv.addEventListener('click', (e) => {
+            handleAnswerClick3(e, num)
+        })
+        newDiv.classList.add('answer');
+        answers.append(newDiv);
+    })
+};
+function randomQuiz4(num) {
+    //populate page
+    removeAllChildren(question);
+    removeAllChildren(definition);
+    removeAllChildren(answers);
+    let nuTitle = document.createElement('h1');
+    nuTitle.textContent = allHanziArray[num];
+    realAnswer = allZhuyinArray[num];
+    let answersArray = [];
+    answersArray.push(realAnswer);
+    question.append(nuTitle);
+    for (let i = 0; i < 5; i++) {
+        let randoNum = Math.floor(Math.random() * allHanziArray.length);
+        let randoAnswer = allZhuyinArray[randoNum];
+        answersArray.push(randoAnswer);
+    };
+    shuffleArray(answersArray);
+    answersArray.forEach(answer => {
+        let newDiv = document.createElement('div');
+        newDiv.textContent = answer;
+        newDiv.addEventListener('click', (e) => {
+            handleAnswerClick3(e, num)
+        })
+        newDiv.classList.add('answer');
+        answers.append(newDiv);
+    })
+};
+function handleAnswerClick3(e, num) {
+    let selectedAnswer = e.currentTarget.textContent;
+    let smolRandoNum = Math.floor(Math.random() * 5);
+    console.log(smolRandoNum);
+    if (realAnswer === selectedAnswer && num == 0) {
+        char0.goodAnswer();
+        randomQuiz4(smolRandoNum);
+    } else if (realAnswer !== selectedAnswer && num == 0) {
+        char0.badAnswer();
+        randomQuiz3(smolRandoNum);
+    } else if (realAnswer === selectedAnswer && num == 1) {
+        char1.goodAnswer();
+        randomQuiz4(smolRandoNum);
+    } else if (realAnswer !== selectedAnswer && num == 1) {
+        char1.badAnswer();
+        randomQuiz3(smolRandoNum);
+    } else if (realAnswer === selectedAnswer && num == 2) {
+        char2.goodAnswer();
+        randomQuiz4(smolRandoNum);
+    } else if (realAnswer !== selectedAnswer && num == 2) {
+        char2.badAnswer();
+        randomQuiz3(smolRandoNum);
+    } else if (realAnswer === selectedAnswer && num == 3) {
+        char3.goodAnswer();
+        randomQuiz4(smolRandoNum);
+    } else if (realAnswer !== selectedAnswer && num == 3) {
+        char3.badAnswer();
+        randomQuiz3(smolRandoNum);
+    } else if (realAnswer === selectedAnswer && num == 4) {
+        char4.goodAnswer();
+        randomQuiz4(smolRandoNum);
+    } else if (realAnswer !== selectedAnswer && num == 4) {
+        char4.badAnswer();
+        randomQuiz3(smolRandoNum);
+    };
 
+    if (char0.answeredCorrectly > 5) {
+        taughtHanzi.push(char0.char);
+        console.log("learned " + char0.char);
+    }
+    if (char1.answeredCorrectly > 5) {
+        taughtHanzi.push(char1.char);
+        console.log("learned " + char1.char);
+    }
+    if (char2.answeredCorrectly > 5) {
+        taughtHanzi.push(char2.char);
+        console.log("learned " + char2.char);
+    }
+    if (char3.answeredCorrectly > 5) {
+        taughtHanzi.push(char3.char);
+        console.log("learned " + char3.char);
+    }
+    if (char4.answeredCorrectly > 5) {
+        taughtHanzi.push(char4.char);
+        console.log("learned " + char4.char);
+    }
+    if (char0.answeredCorrectly > 5 && char1.answeredCorrectly > 5 && char2.answeredCorrectly > 5 && char3.answeredCorrectly > 5 && char3.answeredCorrectly > 5) {
+        let uniqueChars = [...new Set(taughtHanzi)];
+        savedHanzi.push(uniqueChars);
+        saveToLocalStorage();
+        location.reload();
+    }
+}
 //teach, quiz, quiz, teach, quiz, quiz, quiz, teach, quiz, quiz, quiz, teach, quiz, quiz, quiz, teach, quiz, quiz, quiz, quiz quiz quiz...
 
 
@@ -80,6 +376,7 @@ function loadSavedHanzi() {
     //make quiz and populate page
     quiz1Box.classList.remove('hidden');
 }
+
 // 6 from l1, 3 from l2, and 1 from l3
 
 //timesSeen++

@@ -77,7 +77,7 @@ function teach(num) {
     removeAllChildren(answers);
     let nuTitle = document.createElement('h1');
     let nuZhu = document.createElement('p');
-    let nuDef = document.createElement('h3');
+    let nuDef = document.createElement('p');
     let nuButt = document.createElement('button');
     nuTitle.textContent = allHanziArray[num];
     nuZhu.textContent = allZhuyinArray[num];
@@ -311,7 +311,7 @@ function handleAnswerClick3(e, num) {
         randomQuiz3(smolRandoNum);
     } else if (realAnswer === selectedAnswer && num == 3) {
         char3.goodAnswer();
-        randomQuiz4(smolRandoNum);
+        randomQuiz3(smolRandoNum);
     } else if (realAnswer !== selectedAnswer && num == 3) {
         char3.badAnswer();
         randomQuiz3(smolRandoNum);

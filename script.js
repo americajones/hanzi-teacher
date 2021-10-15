@@ -416,7 +416,10 @@ function reviewQuiz() {
 function handleAnswerClick5(e) {
     let selectedAnswer = e.currentTarget.textContent;
     if (realAnswer === selectedAnswer) {
-        reviewQuiz2();
+        question.firstChild.append(" = ", selectedAnswer);
+        setTimeout(() => {
+            reviewQuiz2();
+        }, 1500);
     } else { console.log('nope') }
 }
 function reviewQuiz2() {
@@ -454,7 +457,10 @@ function reviewQuiz2() {
 function handleAnswerClick6(e) {
     let selectedAnswer = e.currentTarget.textContent;
     if (realAnswer === selectedAnswer) {
-        reviewQuiz();
+        question.firstChild.append(" = ", selectedAnswer);
+        setTimeout(() => {
+            reviewQuiz();
+        }, 1500);
     } else { console.log('nope') }
 }
 // 6 from l1, 3 from l2, and 1 from l3

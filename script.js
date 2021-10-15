@@ -386,7 +386,7 @@ function reviewQuiz() {
     removeAllChildren(definition);
     removeAllChildren(answers);
     let nuBackButt = document.createElement('button');
-    nuBackButt.classList.add('backHome', 'butt', 'left');
+    nuBackButt.classList.add('backHome', 'butt');
     nuBackButt.textContent = "back";
     nuBackButt.addEventListener('click', backHome);
     definition.append(nuBackButt);
@@ -424,7 +424,7 @@ function reviewQuiz2() {
     removeAllChildren(definition);
     removeAllChildren(answers);
     let nuBackButt = document.createElement('button');
-    nuBackButt.classList.add('backHome', 'butt', 'left');
+    nuBackButt.classList.add('backHome', 'butt');
     nuBackButt.addEventListener('click', backHome);
     nuBackButt.textContent = "back";
     definition.append(nuBackButt);

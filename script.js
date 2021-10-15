@@ -12,10 +12,16 @@ let savedHanzi = [];
 let learnedHanzi = [];
 let taughtHanzi = [];
 let hanziToBeSaved = [];
-
 let allHanziArray = [];
 let allMeaningsArray = [];
 let allZhuyinArray = [];
+let currentlyLearning;
+let char0;
+let char1;
+let char2;
+let char3;
+let char4;
+let realAnswer;
 //pull from localstorage onLoad: characters learned array
 loadStorage();
 function loadStorage() {
@@ -28,6 +34,7 @@ function loadStorage() {
             savedHanzi.push(hanzi);
         })
     }
+    console.log(learnedHanzi);
 }
 //opening choices: learn new or review or (small) edit list
 
@@ -39,13 +46,6 @@ function learnNew() {
     loadNewHanzi();
     teach(0);
 }
-let currentlyLearning;
-let char0;
-let char1;
-let char2;
-let char3;
-let char4;
-let realAnswer;
 function loadNewHanzi() {
     for (var [index, [key, value]] of Object.entries(Object.entries(hanzi1500))) {
         if (learnedHanzi.includes(key)) {
@@ -345,7 +345,10 @@ function handleAnswerClick3(e, num) {
     }
     if (char0.answeredCorrectly > 5 && char1.answeredCorrectly > 5 && char2.answeredCorrectly > 5 && char3.answeredCorrectly > 5 && char3.answeredCorrectly > 5) {
         let uniqueChars = [...new Set(taughtHanzi)];
-        savedHanzi.push(uniqueChars);
+        uniqueChars.forEach(char => {
+            savedHanzi.push(char);
+            learnedHanzi.push(char);
+        })
         saveToLocalStorage();
         location.reload();
     }
@@ -373,10 +376,87 @@ function loadSavedHanzi() {
     }
     console.log("2: ", allHanziArray);
     homeBox.classList.add('hidden');
-    //make quiz and populate page
     quiz1Box.classList.remove('hidden');
-}
 
+    reviewQuiz();
+    //make quiz and populate page
+}
+function reviewQuiz() {
+    removeAllChildren(question);
+    removeAllChildren(definition);
+    removeAllChildren(answers);
+    let nuBackButt = document.createElement('button');
+    nuBackButt.classList.add('backHome', 'butt', 'left');
+    nuBackButt.textContent = "back";
+    nuBackButt.addEventListener('click', backHome);
+    definition.append(nuBackButt);
+    let randoNum = Math.floor(Math.random() * allHanziArray.length);
+    let nuTitle = document.createElement('h1');
+    nuTitle.textContent = allHanziArray[randoNum];
+    realAnswer = allMeaningsArray[randoNum];
+    let answersArray = [];
+    answersArray.push(realAnswer);
+    question.append(nuTitle);
+    for (let i = 0; i < 5; i++) {
+        let randoNum = Math.floor(Math.random() * allHanziArray.length);
+        let randoAnswer = allMeaningsArray[randoNum];
+        answersArray.push(randoAnswer);
+    };
+    shuffleArray(answersArray);
+    answersArray.forEach(answer => {
+        let newDiv = document.createElement('div');
+        newDiv.textContent = answer;
+        newDiv.addEventListener('click', (e) => {
+            handleAnswerClick5(e)
+        })
+        newDiv.classList.add('answer');
+        answers.append(newDiv);
+    })
+}
+function handleAnswerClick5(e) {
+    let selectedAnswer = e.currentTarget.textContent;
+    if (realAnswer === selectedAnswer) {
+        reviewQuiz2();
+    } else { console.log('nope') }
+}
+function reviewQuiz2() {
+    removeAllChildren(question);
+    removeAllChildren(definition);
+    removeAllChildren(answers);
+    let nuBackButt = document.createElement('button');
+    nuBackButt.classList.add('backHome', 'butt', 'left');
+    nuBackButt.addEventListener('click', backHome);
+    nuBackButt.textContent = "back";
+    definition.append(nuBackButt);
+    let randoNum = Math.floor(Math.random() * allHanziArray.length);
+    let nuTitle = document.createElement('h1');
+    nuTitle.textContent = allHanziArray[randoNum];
+    realAnswer = allZhuyinArray[randoNum];
+    let answersArray = [];
+    answersArray.push(realAnswer);
+    question.append(nuTitle);
+    for (let i = 0; i < 5; i++) {
+        let randoNum = Math.floor(Math.random() * allHanziArray.length);
+        let randoAnswer = allZhuyinArray[randoNum];
+        answersArray.push(randoAnswer);
+    };
+    shuffleArray(answersArray);
+    answersArray.forEach(answer => {
+        let newDiv = document.createElement('div');
+        newDiv.textContent = answer;
+        newDiv.addEventListener('click', (e) => {
+            handleAnswerClick6(e)
+        })
+        newDiv.classList.add('answer');
+        answers.append(newDiv);
+    })
+}
+function handleAnswerClick6(e) {
+    let selectedAnswer = e.currentTarget.textContent;
+    if (realAnswer === selectedAnswer) {
+        reviewQuiz();
+    } else { console.log('nope') }
+}
 // 6 from l1, 3 from l2, and 1 from l3
 
 //timesSeen++
@@ -460,6 +540,7 @@ function backHome() {
     removeAllChildren(list);
     removeAllChildren(charDescript);
     listBox.classList.add('hidden');
+    quiz1Box.classList.add('hidden');
     homeBox.classList.remove('hidden');
 }
 

@@ -14,6 +14,7 @@ button {
 }
 button:hover{
     background-color: rgb(137, 170, 109);
+    color: black;
 }
 .home-page {
     display: flex;
@@ -28,6 +29,7 @@ button:hover{
     flex-direction: row;
     flex-wrap: wrap;
     font-size: 25px;
+    margin-bottom: 2rem;
 }
 .answer {
     width: 49%;

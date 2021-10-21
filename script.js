@@ -37,7 +37,6 @@ function loadStorage() {
     console.log(learnedHanzi);
 }
 //opening choices: learn new or review or (small) edit list
-
 //learn new initiate: pull five characters from the unlearned array, show off then initiate intro quiz
 function learnNew() {
     allHanziArray = [];

@@ -46,7 +46,7 @@ function learnNew() {
     teach(0);
 }
 function loadNewHanzi() {
-    for (var [index, [key, value]] of Object.entries(Object.entries(hanzi1500))) {
+    for (var [index, [key, value]] of Object.entries(Object.entries(hanzi))) {
         if (learnedHanzi.includes(key)) {
             console.log("not today")
         } else {
@@ -364,7 +364,7 @@ function loadSavedHanzi() {
     allMeaningsArray = [];
     allZhuyinArray = [];
     console.log("1: ", allHanziArray);
-    for (var [index, [key, value]] of Object.entries(Object.entries(hanzi1500))) {
+    for (var [index, [key, value]] of Object.entries(Object.entries(hanzi))) {
         if (learnedHanzi.includes(key)) {
             allHanziArray.push(key);
             allZhuyinArray.push(value.zhuyin);
@@ -476,7 +476,7 @@ function handleAnswerClick6(e) {
 function loadList() {
     listBox.classList.remove('hidden');
     homeBox.classList.add('hidden');
-    for (var [index, [key, value]] of Object.entries(Object.entries(hanzi1500))) {
+    for (var [index, [key, value]] of Object.entries(Object.entries(hanzi))) {
         let nuDiv = document.createElement('div');
         nuDiv.id = index;
         nuDiv.append(key);

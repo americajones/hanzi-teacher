@@ -1,4 +1,4 @@
-const hanzi1500 = {
+const hanzi = {
     "我": {
         "zhuyin": "ㄨㄛˇ",
         "pinyin": "wǒ ",
